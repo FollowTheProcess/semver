@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/FollowTheProcess/semver)](https://goreportcard.com/report/github.com/FollowTheProcess/semver)
 [![GitHub](https://img.shields.io/github/v/release/FollowTheProcess/semver?logo=github&sort=semver)](https://github.com/FollowTheProcess/semver)
 [![CI](https://github.com/FollowTheProcess/semver/workflows/CI/badge.svg)](https://github.com/FollowTheProcess/semver/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/FollowTheProcess/semver/branch/main/graph/badge.svg?token=Q8Y5KFA9ZK)](https://codecov.io/gh/FollowTheProcess/semver)
 
 Semver parsing and validation library for Go
 
