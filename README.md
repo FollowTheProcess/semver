@@ -32,7 +32,10 @@ version := semver.New(1, 2, 3, "rc.1", "build.123")
 ### Parse a Version from text
 
 ```go
-version := semver.Parse("v1.6.12")
+version, err := semver.Parse("v1.6.12")
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 ### Check a version string
