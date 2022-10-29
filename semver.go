@@ -57,6 +57,17 @@ func (v Version) Tag() string {
 	return "v" + v.String()
 }
 
+// New creates and returns a new Version.
+func New(major, minor, patch uint64, build, pre string) Version {
+	return Version{
+		Prerelease: pre,
+		Build:      build,
+		Major:      major,
+		Minor:      minor,
+		Patch:      patch,
+	}
+}
+
 // Parse creates and returns a Version from a semver string.
 func Parse(text string) (Version, error) {
 	if !semVerRegex.MatchString(text) {
@@ -76,18 +87,11 @@ func Parse(text string) (Version, error) {
 		groups[names[i]] = part
 	}
 
-	majorInt, err := strconv.ParseUint(groups[major], 10, 64)
-	if err != nil {
-		return Version{}, fmt.Errorf("major part %v cannot be converted to uint64", groups[major])
-	}
-	minorInt, err := strconv.ParseUint(groups[minor], 10, 64)
-	if err != nil {
-		return Version{}, fmt.Errorf("minor part %v cannot be converted to uint64", groups[minor])
-	}
-	patchInt, err := strconv.ParseUint(groups[patch], 10, 64)
-	if err != nil {
-		return Version{}, fmt.Errorf("patch part %v cannot be converted to uint64", groups[patch])
-	}
+	// Errors below are ignored because they wouldn't pass the regex check if they
+	// weren't parseable numeric digits
+	majorInt, _ := strconv.ParseUint(groups[major], 10, 64)
+	minorInt, _ := strconv.ParseUint(groups[minor], 10, 64)
+	patchInt, _ := strconv.ParseUint(groups[patch], 10, 64)
 
 	v := Version{
 		Prerelease: groups[pre],

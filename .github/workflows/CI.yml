@@ -29,6 +29,33 @@ jobs:
       - name: Run Tests
         run: go test -race ./...
 
+  cov:
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Download Dependencies
+        run: go mod download
+
+      - name: Run Tests
+        run: go test -race -cover -covermode=atomic -coverprofile=./coverage.out ./...
+        env:
+          SPOK_INTEGRATION_TEST: true
+
+      - name: Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          # token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.out
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -64,4 +91,3 @@ jobs:
         with:
           draft: false
           prerelease: false
-
