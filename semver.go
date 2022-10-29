@@ -76,7 +76,7 @@ func New(major, minor, patch uint64, build, pre string) Version {
 //
 // If the string is not a valid semantic version, an error will be returned
 //
-//	v := Parse("v1.8.9")
+//	v, _ := Parse("v1.8.9")
 //	Version{Major: 1, Minor: 8, Patch: 9, Prerelease: "", Build: ""}
 func Parse(text string) (Version, error) {
 	if !IsValid(text) {
