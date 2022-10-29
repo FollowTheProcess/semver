@@ -70,7 +70,7 @@ func New(major, minor, patch uint64, build, pre string) Version {
 
 // Parse creates and returns a Version from a semver string.
 func Parse(text string) (Version, error) {
-	if !semVerRegex.MatchString(text) {
+	if !IsValid(text) {
 		return Version{}, fmt.Errorf("%q is not a valid semantic version", text)
 	}
 
@@ -129,4 +129,9 @@ func BumpPatch(current Version) Version {
 		Minor: current.Minor,
 		Patch: current.Patch + 1,
 	}
+}
+
+// IsValid returns whether or not a string is a valid semantic version.
+func IsValid(text string) bool {
+	return semVerRegex.MatchString(text)
 }
