@@ -1,6 +1,7 @@
 package semver_test
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -398,4 +399,58 @@ func BenchmarkVersionTag(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_ = v.Tag()
 	}
+}
+
+func ExampleParse() {
+	v, err := semver.Parse("v1.19.0")
+	if err != nil {
+		fmt.Println("Uh oh! That's not a valid semantic version")
+	}
+	fmt.Println(v)
+	// Output: 1.19.0
+}
+
+func ExampleBumpMajor() {
+	current, _ := semver.Parse("3.12.0")
+	next := semver.BumpMajor(current)
+	fmt.Println(next)
+	// Output: 4.0.0
+}
+
+func ExampleBumpMinor() {
+	current, _ := semver.Parse("3.12.0")
+	next := semver.BumpMinor(current)
+	fmt.Println(next)
+	// Output: 3.13.0
+}
+
+func ExampleBumpPatch() {
+	current, _ := semver.Parse("3.12.0")
+	next := semver.BumpPatch(current)
+	fmt.Println(next)
+	// Output: 3.12.1
+}
+
+func ExampleIsValid() {
+	// Don't need the 'v' at the start
+	one := semver.IsValid("1.19.0")
+
+	// But you can have it if you want
+	two := semver.IsValid("v1.19.0")
+
+	// Can handle all the complexity of the semver 2.0.0 spec
+	three := semver.IsValid("v6.35.12-rc1+build.123")
+
+	// Obviously wrong
+	four := semver.IsValid("I'm not a version")
+
+	fmt.Println(one)
+	fmt.Println(two)
+	fmt.Println(three)
+	fmt.Println(four)
+	// Output:
+	// true
+	// true
+	// true
+	// false
 }
