@@ -34,6 +34,12 @@ version := semver.New(1, 2, 3, "rc.1", "build.123")
 version := semver.Parse("v1.6.12")
 ```
 
+### Check a version string
+
+```go
+ok := semver.IsValid("1.19.0")
+```
+
 ### Credits
 
 This package was created with [copier] and the [FollowTheProcess/go_copier] project template.
