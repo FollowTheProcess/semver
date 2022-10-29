@@ -21,6 +21,10 @@ fmt:
 test *flags: fmt
     go test -race ./... {{ flags }}
 
+# Run all project benchmarks
+bench: fmt
+    go test ./... -run=None -benchmem -bench .
+
 # Lint the project and auto-fix errors if possible
 lint: fmt
     golangci-lint run --fix

@@ -11,9 +11,27 @@ Semver parsing and validation library for Go
 
 ## Project Description
 
+Semver is a small, simple [semver] parsing and validation library for Go
+
 ## Installation
 
+```shell
+go get github.com/FollowTheProcess/semver@latest
+```
+
 ## Quickstart
+
+### Create a New Version
+
+```go
+version := semver.New(1, 2, 3, "rc.1", "build.123")
+```
+
+### Parse a Version from text
+
+```go
+version := semver.Parse("v1.6.12")
+```
 
 ### Credits
 
@@ -21,3 +39,4 @@ This package was created with [copier] and the [FollowTheProcess/go_copier] proj
 
 [copier]: https://copier.readthedocs.io/en/stable/
 [FollowTheProcess/go_copier]: https://github.com/FollowTheProcess/go_copier
+[semver]: https://semver.org
