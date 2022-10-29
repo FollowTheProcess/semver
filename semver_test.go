@@ -299,6 +299,70 @@ func TestBumpPatch(t *testing.T) {
 	}
 }
 
+func TestIsValid(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want bool
+	}{
+		{
+			name: "simple",
+			text: "1.2.4",
+			want: true,
+		},
+		{
+			name: "simple with v",
+			text: "v1.2.4",
+			want: true,
+		},
+		{
+			name: "prerelease",
+			text: "v2.3.7-rc.1",
+			want: true,
+		},
+		{
+			name: "prerelease and build",
+			text: "v8.1.0-rc.1+build.123",
+			want: true,
+		},
+		{
+			name: "beta",
+			text: "1.2.3-beta",
+			want: true,
+		},
+		{
+			name: "obviously wrong",
+			text: "moby dick",
+			want: false,
+		},
+		{
+			name: "invalid",
+			text: "1",
+			want: false,
+		},
+		{
+			name: "prerelease digits",
+			text: "1.2.3-0123",
+			want: false,
+		},
+		{
+			name: "extra parts",
+			text: "1.2.3.4",
+			want: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := semver.IsValid(tt.text)
+
+			if got != tt.want {
+				t.Errorf("got %#v, wanted %#v", got, tt.want)
+			}
+		})
+	}
+}
+
 func BenchmarkVersionParse(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
