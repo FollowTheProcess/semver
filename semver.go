@@ -1,4 +1,4 @@
-// Package semver is a library for parsing and validating semantic versions in Go.
+// Package semver is a library for parsing, validating and bumping semantic versions in Go.
 //
 // It is fully compliant with the [semver 2.0.0 spec]
 //
@@ -26,11 +26,11 @@ var semVerRegex = regexp.MustCompile(fmt.Sprintf(`^v?(?P<%s>0|[1-9]\d*)\.(?P<%s>
 
 // Version encodes a semantic version.
 type Version struct {
-	Prerelease string
-	Build      string
-	Major      uint64
-	Minor      uint64
-	Patch      uint64
+	Prerelease string // Optional pre-release e.g. "rc1"
+	Build      string // Optional build metadata e.g. "build.123"
+	Major      uint64 // Major version
+	Minor      uint64 // Minor version
+	Patch      uint64 // Patch version
 }
 
 // String implements the Stringer interface and allows a Version to print itself.
@@ -58,6 +58,10 @@ func (v Version) Tag() string {
 }
 
 // New creates and returns a new Version.
+// Numeric parts are unsigned integers so that e.g -1 becomes a compile time error
+//
+//	v := New(1, 7, 6, "", "")
+//	Version{Major: 1, Minor: 7, Patch: 6, Prerelease: "", Build: ""}
 func New(major, minor, patch uint64, build, pre string) Version {
 	return Version{
 		Prerelease: pre,
@@ -69,6 +73,11 @@ func New(major, minor, patch uint64, build, pre string) Version {
 }
 
 // Parse creates and returns a Version from a semver string.
+//
+// If the string is not a valid semantic version, an error will be returned
+//
+//	v := Parse("v1.8.9")
+//	Version{Major: 1, Minor: 8, Patch: 9, Prerelease: "", Build: ""}
 func Parse(text string) (Version, error) {
 	if !IsValid(text) {
 		return Version{}, fmt.Errorf("%q is not a valid semantic version", text)
