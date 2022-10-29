@@ -103,3 +103,30 @@ func Parse(text string) (Version, error) {
 
 	return v, nil
 }
+
+// BumpMajor returns a new Version with it's major version bumped.
+func BumpMajor(current Version) Version {
+	// Everything else set to zero value
+	return Version{
+		Major: current.Major + 1,
+	}
+}
+
+// BumpMinor returns a new Version with it's minor version bumped.
+func BumpMinor(current Version) Version {
+	// Keep major, bump minor, everything else -> zero value
+	return Version{
+		Major: current.Major,
+		Minor: current.Minor + 1,
+	}
+}
+
+// BumpPatch returns a new Version with it's patch version bumped.
+func BumpPatch(current Version) Version {
+	// Keep major and minor, bump patch, everything else -> zero value
+	return Version{
+		Major: current.Major,
+		Minor: current.Minor,
+		Patch: current.Patch + 1,
+	}
+}

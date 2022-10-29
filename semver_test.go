@@ -173,6 +173,132 @@ func TestNew(t *testing.T) {
 	}
 }
 
+func TestBumpMajor(t *testing.T) {
+	tests := []struct {
+		name    string
+		current semver.Version
+		want    semver.Version
+	}{
+		{
+			name:    "zeros",
+			current: semver.Version{},
+			want:    semver.Version{Major: 1},
+		},
+		{
+			name:    "minor",
+			current: semver.Version{Minor: 1},
+			want:    semver.Version{Major: 1},
+		},
+		{
+			name:    "patch",
+			current: semver.Version{Patch: 1},
+			want:    semver.Version{Major: 1},
+		},
+		{
+			name:    "everything",
+			current: semver.Version{Major: 0, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Major: 1},
+		},
+		{
+			name:    "big numbers",
+			current: semver.Version{Major: 123, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Major: 124},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := semver.BumpMajor(tt.current); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("got %#v, wanted %#v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBumpMinor(t *testing.T) {
+	tests := []struct {
+		name    string
+		current semver.Version
+		want    semver.Version
+	}{
+		{
+			name:    "zeros",
+			current: semver.Version{},
+			want:    semver.Version{Minor: 1},
+		},
+		{
+			name:    "minor",
+			current: semver.Version{Minor: 1},
+			want:    semver.Version{Minor: 2},
+		},
+		{
+			name:    "patch",
+			current: semver.Version{Patch: 1},
+			want:    semver.Version{Minor: 1},
+		},
+		{
+			name:    "everything",
+			current: semver.Version{Major: 0, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Minor: 33},
+		},
+		{
+			name:    "big numbers",
+			current: semver.Version{Major: 123, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Major: 123, Minor: 33},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := semver.BumpMinor(tt.current); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("got %#v, wanted %#v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBumpPatch(t *testing.T) {
+	tests := []struct {
+		name    string
+		current semver.Version
+		want    semver.Version
+	}{
+		{
+			name:    "zeros",
+			current: semver.Version{},
+			want:    semver.Version{Patch: 1},
+		},
+		{
+			name:    "minor",
+			current: semver.Version{Minor: 1},
+			want:    semver.Version{Minor: 1, Patch: 1},
+		},
+		{
+			name:    "patch",
+			current: semver.Version{Patch: 1},
+			want:    semver.Version{Patch: 2},
+		},
+		{
+			name:    "everything",
+			current: semver.Version{Major: 0, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Minor: 32, Patch: 7},
+		},
+		{
+			name:    "big numbers",
+			current: semver.Version{Major: 123, Minor: 32, Patch: 6, Prerelease: "rc.1", Build: "build.123"},
+			want:    semver.Version{Major: 123, Minor: 32, Patch: 7},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := semver.BumpPatch(tt.current); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("got %#v, wanted %#v", got, tt.want)
+			}
+		})
+	}
+}
+
 func BenchmarkVersionParse(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
