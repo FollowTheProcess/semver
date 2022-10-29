@@ -158,6 +158,21 @@ func TestParse(t *testing.T) {
 	}
 }
 
+func TestNew(t *testing.T) {
+	want := semver.Version{
+		Prerelease: "rc.1",
+		Build:      "build.123",
+		Major:      4,
+		Minor:      16,
+		Patch:      3,
+	}
+	got := semver.New(4, 16, 3, "build.123", "rc.1")
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %#v, wanted %#v", got, want)
+	}
+}
+
 func BenchmarkVersionParse(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
