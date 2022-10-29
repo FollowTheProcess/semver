@@ -1,0 +1,30 @@
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - exhaustive
+    - gocritic
+    - gocyclo
+    - godot
+    - gofmt
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - unconvert
+    - unused
+    - whitespace
+
+linters-settings:
+  gocyclo:
+    min-complexity: 20
+
+  staticcheck:
+    go: "1.19"
+    checks: ["all"]
+
+  govet:
+    enable-all: true
