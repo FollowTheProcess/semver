@@ -411,21 +411,30 @@ func ExampleParse() {
 }
 
 func ExampleBumpMajor() {
-	current, _ := semver.Parse("3.12.0")
+	current, err := semver.Parse("3.12.0")
+	if err != nil {
+		fmt.Println("could not parse")
+	}
 	next := semver.BumpMajor(current)
 	fmt.Println(next)
 	// Output: 4.0.0
 }
 
 func ExampleBumpMinor() {
-	current, _ := semver.Parse("3.12.0")
+	current, err := semver.Parse("3.12.0")
+	if err != nil {
+		fmt.Println("could not parse")
+	}
 	next := semver.BumpMinor(current)
 	fmt.Println(next)
 	// Output: 3.13.0
 }
 
 func ExampleBumpPatch() {
-	current, _ := semver.Parse("3.12.0")
+	current, err := semver.Parse("3.12.0")
+	if err != nil {
+		fmt.Println("could not parse")
+	}
 	next := semver.BumpPatch(current)
 	fmt.Println(next)
 	// Output: 3.12.1

@@ -18,6 +18,8 @@ const (
 	patch = "patch"
 	pre   = "pre"
 	build = "build"
+
+	groups = 5 // major, minor, patch, pre, build
 )
 
 // See https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
@@ -83,7 +85,7 @@ func Parse(text string) (Version, error) {
 		return Version{}, fmt.Errorf("%q is not a valid semantic version", text)
 	}
 
-	groups := make(map[string]string, 5) // 5 elements (fields of Version)
+	groups := make(map[string]string, groups) // 5 elements (fields of Version)
 	parts := semVerRegex.FindStringSubmatch(text)
 	names := semVerRegex.SubexpNames()
 
@@ -98,9 +100,9 @@ func Parse(text string) (Version, error) {
 
 	// Errors below are ignored because they wouldn't pass the regex check if they
 	// weren't parseable numeric digits
-	majorInt, _ := strconv.ParseUint(groups[major], 10, 64)
-	minorInt, _ := strconv.ParseUint(groups[minor], 10, 64)
-	patchInt, _ := strconv.ParseUint(groups[patch], 10, 64)
+	majorInt, _ := strconv.ParseUint(groups[major], 10, 64) //nolint: errcheck
+	minorInt, _ := strconv.ParseUint(groups[minor], 10, 64) //nolint: errcheck
+	patchInt, _ := strconv.ParseUint(groups[patch], 10, 64) //nolint: errcheck
 
 	v := Version{
 		Prerelease: groups[pre],
