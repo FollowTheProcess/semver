@@ -1,4 +1,4 @@
-.PHONY: help tidy fmt test lint cover clean check sloc
+.PHONY: help tidy fmt test bench lint cover clean check sloc
 .DEFAULT_GOAL := help
 
 COVERAGE_DATA := coverage.out
@@ -17,6 +17,9 @@ fmt: ## Run go fmt on all source files
 test: ## Run the test suite
 	go test -race ./...
 
+bench: ## Run benchmarks
+	go test ./... -run=None -benchmem -bench .
+
 lint: ## Run the linters and auto-fix if possible
 	golangci-lint run --fix
 
@@ -32,4 +35,4 @@ clean: ## Remove build artifacts and other clutter
 check: test lint ## Run tests and linting in one go
 
 sloc: ## Print lines of code (for fun)
-	find . -name "*.go" | xargs wc -l | sort -nr
+	find . -name "*.go" | xargs wc -l | sort -nr | head
