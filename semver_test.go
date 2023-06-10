@@ -364,6 +364,21 @@ func TestIsValid(t *testing.T) {
 	}
 }
 
+// FuzzVersionParse fuzzes our parse method with random input and makes sure it never panics.
+func FuzzVersionParse(f *testing.F) {
+	f.Add("v1.2.3")
+	f.Add("1.2.3")
+	f.Add("v8.1.0-rc.1+build.123")
+	f.Add("v999.999.999")
+	f.Add("bad")
+	f.Add("")
+	f.Add("{{}{_)*&*_+*$$$%^&*()}}")
+
+	f.Fuzz(func(t *testing.T, s string) {
+		semver.Parse(s) //nolint: errcheck
+	})
+}
+
 func BenchmarkVersionParse(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
