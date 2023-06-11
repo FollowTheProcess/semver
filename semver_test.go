@@ -414,67 +414,20 @@ func TestBumpPatch(t *testing.T) {
 }
 
 func TestIsValid(t *testing.T) {
-	tests := []struct {
-		name string
-		text string
-		want bool
-	}{
-		{
-			name: "simple",
-			text: "1.2.4",
-			want: true,
-		},
-		{
-			name: "simple with v",
-			text: "v1.2.4",
-			want: true,
-		},
-		{
-			name: "prerelease",
-			text: "v2.3.7-rc.1",
-			want: true,
-		},
-		{
-			name: "prerelease and build",
-			text: "v8.1.0-rc.1+build.123",
-			want: true,
-		},
-		{
-			name: "beta",
-			text: "1.2.3-beta",
-			want: true,
-		},
-		{
-			name: "obviously wrong",
-			text: "moby dick",
-			want: false,
-		},
-		{
-			name: "invalid",
-			text: "1",
-			want: false,
-		},
-		{
-			name: "prerelease digits",
-			text: "1.2.3-0123",
-			want: false,
-		},
-		{
-			name: "extra parts",
-			text: "1.2.3.4",
-			want: false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := semver.IsValid(tt.text)
-
-			if got != tt.want {
-				t.Errorf("got %#v, wanted %#v", got, tt.want)
+	t.Run("yes", func(t *testing.T) {
+		for str := range valid {
+			if !semver.IsValid(str) {
+				t.Errorf("IsValid returned false for valid semver string (%q)", str)
 			}
-		})
-	}
+		}
+	})
+	t.Run("no", func(t *testing.T) {
+		for _, str := range invalid {
+			if semver.IsValid(str) {
+				t.Errorf("IsValid returned true for invalid semver string (%q)", str)
+			}
+		}
+	})
 }
 
 // FuzzVersionParse fuzzes our parse method with random input and makes sure it never panics.
