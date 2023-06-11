@@ -30,9 +30,9 @@ var semVerRegex = regexp.MustCompile(fmt.Sprintf(`^v?(?P<%s>0|[1-9]\d*)\.(?P<%s>
 type Version struct {
 	Prerelease string // Optional pre-release e.g. "rc1"
 	Build      string // Optional build metadata e.g. "build.123"
-	Major      uint64 // Major version
-	Minor      uint64 // Minor version
-	Patch      uint64 // Patch version
+	Major      uint   // Major version
+	Minor      uint   // Minor version
+	Patch      uint   // Patch version
 }
 
 // String implements the Stringer interface and allows a Version to print itself.
@@ -64,7 +64,7 @@ func (v Version) Tag() string {
 //
 //	v := New(1, 7, 6, "", "")
 //	Version{Major: 1, Minor: 7, Patch: 6, Prerelease: "", Build: ""}
-func New(major, minor, patch uint64, build, pre string) Version {
+func New(major, minor, patch uint, build, pre string) Version {
 	return Version{
 		Prerelease: pre,
 		Build:      build,
@@ -107,9 +107,9 @@ func Parse(text string) (Version, error) {
 	v := Version{
 		Prerelease: groups[pre],
 		Build:      groups[build],
-		Major:      majorInt,
-		Minor:      minorInt,
-		Patch:      patchInt,
+		Major:      uint(majorInt),
+		Minor:      uint(minorInt),
+		Patch:      uint(patchInt),
 	}
 
 	return v, nil
