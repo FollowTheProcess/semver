@@ -497,6 +497,38 @@ func FuzzVersionParse(f *testing.F) {
 	})
 }
 
+// FuzzParseRoundTrip fuzzes the parse and string methods to ensure the round trip works.
+func FuzzParseRoundTrip(f *testing.F) {
+	// Combine all the valid and invalid examples as the corpus
+	var all []string
+	for str := range valid {
+		all = append(all, str)
+	}
+	for _, str := range invalid {
+		all = append(all, str)
+	}
+
+	for _, example := range all {
+		f.Add(example)
+	}
+
+	f.Fuzz(func(t *testing.T, s string) {
+		got, err := semver.Parse(s)
+		if err == nil {
+			// Valid semver, parse -> string -> parse round trip should work
+			str := got.String()
+			reParsed, err := semver.Parse(str)
+			if err != nil {
+				t.Fatalf("Parse on got.String returned an error: %v", err)
+			}
+
+			if reParsed != got {
+				t.Fatalf("\nReparsed:\t%#v\nOriginal:\t%#v\n", reParsed, got)
+			}
+		}
+	})
+}
+
 func BenchmarkVersionParse(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
