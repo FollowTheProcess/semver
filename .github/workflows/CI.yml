@@ -1,23 +1,27 @@
 name: CI
 
 on:
+  workflow_call:
   pull_request:
   push:
     branches:
       - main
-    tags:
-      - v*
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions: read-all
+permissions: {}
+
+env:
+  GOEXPERIMENT: loopvar
 
 jobs:
   test:
     name: Test
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     strategy:
       matrix:
         os:
@@ -61,6 +65,8 @@ jobs:
   cov:
     name: CodeCov
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout Code
@@ -75,13 +81,15 @@ jobs:
         run: go test -race -cover -covermode=atomic -coverprofile=./coverage.out ./...
 
       - name: Coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage.out
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout Code
@@ -99,40 +107,3 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    needs:
-      - test
-      - fuzz
-      - cov
-      - lint
-
-    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Fetch Existing Tags
-        run: git fetch --force --tags
-
-      - name: Parse Release Version
-        id: version
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Publish Draft Release
-        uses: release-drafter/release-drafter@v5
-        with:
-          version: ${{ steps.version.outputs.version }}
-          publish: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
