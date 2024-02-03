@@ -2,7 +2,6 @@ package semver_test
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 
 	"github.com/FollowTheProcess/semver"
@@ -162,9 +161,9 @@ var invalid = [...]string{
 	"v99999999999999999.99999999999999999.99999999999999999----RC-SNAPSHOT.12.09.1--------------------------------..12",
 }
 
-func TestParse(t *testing.T) {
-	t.Run("valid", func(t *testing.T) {
-		for str, want := range valid {
+func TestParseValid(t *testing.T) {
+	for str, want := range valid {
+		t.Run(str, func(t *testing.T) {
 			got, err := semver.Parse(str)
 			if err != nil {
 				t.Fatalf("Parsing a valid semver string (%q) resulted in an error: %v", str, err)
@@ -173,11 +172,13 @@ func TestParse(t *testing.T) {
 			if got != want {
 				t.Errorf("\nGot:\t%#v\nWanted:\t%#v\n", got, want)
 			}
-		}
-	})
+		})
+	}
+}
 
-	t.Run("invalid", func(t *testing.T) {
-		for _, str := range invalid {
+func TestParseInvalid(t *testing.T) {
+	for _, str := range invalid {
+		t.Run(str, func(t *testing.T) {
 			got, err := semver.Parse(str)
 			if err == nil {
 				t.Fatalf("Parsing an invalid semver string (%q) did not return an error: %v", str, err)
@@ -187,8 +188,8 @@ func TestParse(t *testing.T) {
 			if got != want {
 				t.Errorf("\nGot:\t%#v\nWanted:\t%#v\n", got, want)
 			}
-		}
-	})
+		})
+	}
 }
 
 func TestVersionString(t *testing.T) {
@@ -211,6 +212,11 @@ func TestVersionString(t *testing.T) {
 			name:    "prerelease",
 			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Prerelease: "rc.1"},
 			want:    "1.6.12-rc.1",
+		},
+		{
+			name:    "build",
+			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Build: "build.123"},
+			want:    "1.6.12+build.123",
 		},
 		{
 			name:    "prerelease and build",
@@ -255,6 +261,11 @@ func TestVersionTagString(t *testing.T) {
 			want:    "v1.6.12-rc.1",
 		},
 		{
+			name:    "build",
+			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Build: "build.123"},
+			want:    "v1.6.12+build.123",
+		},
+		{
 			name:    "prerelease and build",
 			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Prerelease: "rc.1", Build: "build.123"},
 			want:    "v1.6.12-rc.1+build.123",
@@ -285,7 +296,7 @@ func TestNew(t *testing.T) {
 	}
 	got := semver.New(4, 16, 3, "build.123", "rc.1")
 
-	if !reflect.DeepEqual(got, want) {
+	if got != want {
 		t.Errorf("got %#v, wanted %#v", got, want)
 	}
 }
@@ -325,7 +336,7 @@ func TestBumpMajor(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := semver.BumpMajor(tt.current); !reflect.DeepEqual(got, tt.want) {
+			if got := semver.BumpMajor(tt.current); got != tt.want {
 				t.Errorf("got %#v, wanted %#v", got, tt.want)
 			}
 		})
@@ -367,7 +378,7 @@ func TestBumpMinor(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := semver.BumpMinor(tt.current); !reflect.DeepEqual(got, tt.want) {
+			if got := semver.BumpMinor(tt.current); got != tt.want {
 				t.Errorf("got %#v, wanted %#v", got, tt.want)
 			}
 		})
@@ -409,28 +420,31 @@ func TestBumpPatch(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := semver.BumpPatch(tt.current); !reflect.DeepEqual(got, tt.want) {
+			if got := semver.BumpPatch(tt.current); got != tt.want {
 				t.Errorf("got %#v, wanted %#v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestIsValid(t *testing.T) {
-	t.Run("yes", func(t *testing.T) {
-		for str := range valid {
+func TestIsValidYes(t *testing.T) {
+	for str := range valid {
+		t.Run(str, func(t *testing.T) {
 			if !semver.IsValid(str) {
 				t.Errorf("IsValid returned false for valid semver string (%q)", str)
 			}
-		}
-	})
-	t.Run("no", func(t *testing.T) {
-		for _, str := range invalid {
+		})
+	}
+}
+
+func TestIsValidNo(t *testing.T) {
+	for _, str := range invalid {
+		t.Run(str, func(t *testing.T) {
 			if semver.IsValid(str) {
 				t.Errorf("IsValid returned true for invalid semver string (%q)", str)
 			}
-		}
-	})
+		})
+	}
 }
 
 // FuzzVersionParse fuzzes our parse method with random input and makes sure it never panics.
