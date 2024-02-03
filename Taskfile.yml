@@ -1,4 +1,5 @@
 # https://taskfile.dev
+# yaml-language-server: $schema=https://raw.githubusercontent.com/go-task/task/main/docs/static/schema.json
 
 version: "3"
 
