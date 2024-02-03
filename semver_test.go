@@ -214,6 +214,11 @@ func TestVersionString(t *testing.T) {
 			want:    "1.6.12-rc.1",
 		},
 		{
+			name:    "build",
+			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Build: "build.123"},
+			want:    "1.6.12+build.123",
+		},
+		{
 			name:    "prerelease and build",
 			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Prerelease: "rc.1", Build: "build.123"},
 			want:    "1.6.12-rc.1+build.123",
@@ -254,6 +259,11 @@ func TestVersionTagString(t *testing.T) {
 			name:    "prerelease",
 			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Prerelease: "rc.1"},
 			want:    "v1.6.12-rc.1",
+		},
+		{
+			name:    "build",
+			version: semver.Version{Major: 1, Minor: 6, Patch: 12, Build: "build.123"},
+			want:    "v1.6.12+build.123",
 		},
 		{
 			name:    "prerelease and build",
