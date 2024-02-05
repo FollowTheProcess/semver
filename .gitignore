@@ -15,13 +15,6 @@
 # Test binary, built with `go test -c`
 *.test
 
-# Taskfile
-.task
-
-# Comparative benchmarks
-before.txt
-after.txt
-
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 coverage.html
