@@ -100,9 +100,9 @@ func Parse(text string) (Version, error) {
 
 	// Errors below are ignored because they wouldn't pass the regex check if they
 	// weren't parseable numeric digits
-	majorInt, _ := strconv.ParseUint(groups[major], 10, 64) //nolint: errcheck
-	minorInt, _ := strconv.ParseUint(groups[minor], 10, 64) //nolint: errcheck
-	patchInt, _ := strconv.ParseUint(groups[patch], 10, 64) //nolint: errcheck
+	majorInt, _ := strconv.ParseUint(groups[major], 10, 64) //nolint: errcheck // Must be valid digits to pass regex
+	minorInt, _ := strconv.ParseUint(groups[minor], 10, 64) //nolint: errcheck // Must be valid digits to pass regex
+	patchInt, _ := strconv.ParseUint(groups[patch], 10, 64) //nolint: errcheck // Must be valid digits to pass regex
 
 	v := Version{
 		Prerelease: groups[pre],

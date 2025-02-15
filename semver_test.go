@@ -463,7 +463,7 @@ func FuzzVersionParse(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, s string) {
-		semver.Parse(s) //nolint: errcheck
+		semver.Parse(s) //nolint: errcheck // Just ensuring no panic
 	})
 }
 
@@ -500,7 +500,7 @@ func FuzzParseRoundTrip(f *testing.F) {
 }
 
 func BenchmarkVersionParse(b *testing.B) {
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
 		if err != nil {
 			b.Fatalf("Parse returned an error: %v", err)
@@ -517,7 +517,7 @@ func BenchmarkVersionString(b *testing.B) {
 		Patch:      12,
 	}
 	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		_ = v.String()
 	}
 }
@@ -531,7 +531,7 @@ func BenchmarkVersionTag(b *testing.B) {
 		Patch:      12,
 	}
 	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
+	for range b.N {
 		_ = v.Tag()
 	}
 }
