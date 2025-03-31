@@ -23,7 +23,13 @@ var valid = map[string]semver.Version{
 	"1.0.0-alpha.1":         {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha.1"},
 	"1.0.0-alpha0.valid":    {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha0.valid"},
 	"1.0.0-alpha.0valid":    {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha.0valid"},
-	"1.0.0-alpha-a.b-c-somethinglong+build.1-aef.1-its-okay": {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha-a.b-c-somethinglong", Build: "build.1-aef.1-its-okay"},
+	"1.0.0-alpha-a.b-c-somethinglong+build.1-aef.1-its-okay": {
+		Major:      1,
+		Minor:      0,
+		Patch:      0,
+		Prerelease: "alpha-a.b-c-somethinglong",
+		Build:      "build.1-aef.1-its-okay",
+	},
 	"1.0.0-rc.1+build.1":                   {Major: 1, Minor: 0, Patch: 0, Prerelease: "rc.1", Build: "build.1"},
 	"2.0.0-rc.1+build.123":                 {Major: 2, Minor: 0, Patch: 0, Prerelease: "rc.1", Build: "build.123"},
 	"1.2.3-beta":                           {Major: 1, Minor: 2, Patch: 3, Prerelease: "beta"},
@@ -54,7 +60,13 @@ var valid = map[string]semver.Version{
 	"v1.0.0-alpha.1":         {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha.1"},
 	"v1.0.0-alpha0.valid":    {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha0.valid"},
 	"v1.0.0-alpha.0valid":    {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha.0valid"},
-	"v1.0.0-alpha-a.b-c-somethinglong+build.1-aef.1-its-okay": {Major: 1, Minor: 0, Patch: 0, Prerelease: "alpha-a.b-c-somethinglong", Build: "build.1-aef.1-its-okay"},
+	"v1.0.0-alpha-a.b-c-somethinglong+build.1-aef.1-its-okay": {
+		Major:      1,
+		Minor:      0,
+		Patch:      0,
+		Prerelease: "alpha-a.b-c-somethinglong",
+		Build:      "build.1-aef.1-its-okay",
+	},
 	"v1.0.0-rc.1+build.1":                   {Major: 1, Minor: 0, Patch: 0, Prerelease: "rc.1", Build: "build.1"},
 	"v2.0.0-rc.1+build.123":                 {Major: 2, Minor: 0, Patch: 0, Prerelease: "rc.1", Build: "build.123"},
 	"v1.2.3-beta":                           {Major: 1, Minor: 2, Patch: 3, Prerelease: "beta"},
@@ -70,7 +82,11 @@ var valid = map[string]semver.Version{
 	"v1.2.3----R-S.12.9.1--.12+meta":        {Major: 1, Minor: 2, Patch: 3, Prerelease: "---R-S.12.9.1--.12", Build: "meta"},
 	"v1.2.3----RC-SNAPSHOT.12.9.1--.12":     {Major: 1, Minor: 2, Patch: 3, Prerelease: "---RC-SNAPSHOT.12.9.1--.12"},
 	"v1.0.0+0.build.1-rc.10000aaa-kk-0.1":   {Major: 1, Minor: 0, Patch: 0, Build: "0.build.1-rc.10000aaa-kk-0.1"},
-	"v99999999999999999.99999999999999999.99999999999999999": {Major: 99999999999999999, Minor: 99999999999999999, Patch: 99999999999999999},
+	"v99999999999999999.99999999999999999.99999999999999999": {
+		Major: 99999999999999999,
+		Minor: 99999999999999999,
+		Patch: 99999999999999999,
+	},
 	"v1.0.0-0A.is.legal": {Major: 1, Minor: 0, Patch: 0, Prerelease: "0A.is.legal"},
 }
 
