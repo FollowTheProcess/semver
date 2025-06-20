@@ -1,3 +1,3 @@
-module github.com/FollowTheProcess/semver
+module go.followtheprocess.codes/semver
 
 go 1.24

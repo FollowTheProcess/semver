@@ -3,7 +3,7 @@
 // It is fully compliant with the [semver 2.0.0 spec]
 //
 // [semver 2.0.0 spec]: https://semver.org
-package semver
+package semver // import "go.followtheprocess.codes/semver"
 
 import (
 	"fmt"

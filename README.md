@@ -1,7 +1,7 @@
 # Semver
 
 [![License](https://img.shields.io/github/license/FollowTheProcess/semver)](https://github.com/FollowTheProcess/semver)
-[![Go Reference](https://pkg.go.dev/badge/github.com/FollowTheProcess/semver.svg)](https://pkg.go.dev/github.com/FollowTheProcess/semver)
+[![Go Reference](https://pkg.go.dev/badge/go.followtheprocess.codes/semver.svg)](https://pkg.go.dev/go.followtheprocess.codes/semver)
 [![Go Report Card](https://goreportcard.com/badge/github.com/FollowTheProcess/semver)](https://goreportcard.com/report/github.com/FollowTheProcess/semver)
 [![GitHub](https://img.shields.io/github/v/release/FollowTheProcess/semver?logo=github&sort=semver)](https://github.com/FollowTheProcess/semver)
 [![CI](https://github.com/FollowTheProcess/semver/workflows/CI/badge.svg)](https://github.com/FollowTheProcess/semver/actions?query=workflow%3ACI)
@@ -18,7 +18,7 @@ Semver is a small, simple [semver] parsing and validation library for Go
 ## Installation
 
 ```shell
-go get github.com/FollowTheProcess/semver@latest
+go get go.followtheprocess.codes/semver@latest
 ```
 
 ## Quickstart
