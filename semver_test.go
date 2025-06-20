@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/FollowTheProcess/semver"
+	"go.followtheprocess.codes/semver"
 )
 
 // Map of valid semver strings to their expected semver.Version, no error should
