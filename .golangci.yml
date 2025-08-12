@@ -41,6 +41,7 @@ linters:
     - varnamelen # Lots of false positives of things that are fine
     - wrapcheck # Not every error must be wrapped
     - wsl # Very aggressive, some of this I like but tend to do anyway
+    - wsl_v5 # As above
 
   exclusions:
     presets:
