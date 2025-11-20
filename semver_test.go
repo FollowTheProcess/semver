@@ -516,7 +516,7 @@ func FuzzParseRoundTrip(f *testing.F) {
 }
 
 func BenchmarkVersionParse(b *testing.B) {
-	for range b.N {
+	for b.Loop() {
 		_, err := semver.Parse("v12.4.3-rc1+build.123")
 		if err != nil {
 			b.Fatalf("Parse returned an error: %v", err)
@@ -532,8 +532,8 @@ func BenchmarkVersionString(b *testing.B) {
 		Minor:      4,
 		Patch:      12,
 	}
-	b.ResetTimer()
-	for range b.N {
+
+	for b.Loop() {
 		_ = v.String()
 	}
 }
@@ -546,8 +546,8 @@ func BenchmarkVersionTag(b *testing.B) {
 		Minor:      4,
 		Patch:      12,
 	}
-	b.ResetTimer()
-	for range b.N {
+
+	for b.Loop() {
 		_ = v.Tag()
 	}
 }
